@@ -26,4 +26,15 @@
   </p>
 <% end %>
 
+<% if current_user == @project.user %>
+  <h2>Backers:</h2>
+  <% @pledges.each do |pledge| %>
+  <% backer = User.find(pledge.user_id) %>
+  <div><%= backer.first_name %> <%=backer.last_name %></div>
+  <% end %>
+<% end %>
+
+
+
+
 <%= link_to "Add new reward", new_project_reward_path(@project) %>
