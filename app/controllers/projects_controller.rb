@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  #before_action :require_login, only: [:new, :create]
+  before_action :require_login, only: [:new, :create]
 
   def index
     @projects = Project.all
@@ -8,6 +8,7 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
+    @pledges = @project.pledges
   end
 
   def new
