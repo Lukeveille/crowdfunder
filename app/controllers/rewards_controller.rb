@@ -1,5 +1,6 @@
 class RewardsController < ApplicationController
   before_action :load_project
+  before_action :confirm_ownership, only: [:destroy]
 
   def new
     @reward = Reward.new
@@ -29,4 +30,15 @@ class RewardsController < ApplicationController
   def load_project
     @project = Project.find(params[:project_id])
   end
+
+  def confirm_ownership
+    unless current_user == Reward.find(params[:id]).project.user
+      if request.referer
+        redirect_to request.referer
+      else
+        not_authenticated
+      end
+    end
+  end
+
 end

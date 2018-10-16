@@ -29,7 +29,7 @@ class ProjectTest < ActiveSupport::TestCase
     project = new_project_with_user
     project.end_date = project.start_date - 1.day
     # act
-    unexpected_result = project.save
+    project.save
     # assert
     assert project.invalid?, 'Project should not save if end date is before start date.'
   end
