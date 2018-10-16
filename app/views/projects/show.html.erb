@@ -6,7 +6,7 @@
 
 <h1><%= @project.title %> <time class="project-days-left">
   <%= icon('clock-o') %>
-  <%= "#{time_ago_in_words(@project.end_date)} #{( @project.end_date > Time.now.utc ) ? 'remaining' : 'past deadline'}" %>
+  <%= "#{time_ago_in_words(@project.end_date)} #{( @project.end_date > Time.now.utc) ? 'remaining' : 'past deadline'}" %>
 </time>
 </h1>
 
@@ -43,11 +43,11 @@
 
 <h2>Updates</h2>
 <% @project.updates.each do |update| %>
-<div class="">
-<p>Date: <%= update.created_at %></p>
-<p><%= update.title %></p>
-<p>Notes:<%= update.notes %></p>
-</div>
+  <div class="">
+  <p>Date: <%= update.created_at %></p>
+  <p><%= update.title %></p>
+  <p>Notes:<%= update.notes %></p>
+  </div>
 <% end %>
 
 <h2>Rewards</h2>
@@ -66,6 +66,7 @@
           <%= link_to "Remove reward", project_reward_path(@project, reward), method: 'delete' %>
         </small>
       </p>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>
@@ -77,6 +78,6 @@
   <%= link_to "#{backer.first_name} #{backer.last_name}", user_path(backer) %> <%= %> | $<%= pledge.dollar_amount %>
   <% end %>
   <%= render partial: "updates/form", locals: {project: @project, update: @update} %>
-  <br />
+  <br/>
   <%= link_to "Add new reward", new_project_reward_path(@project) %>
 <% end %>
