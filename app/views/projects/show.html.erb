@@ -1,4 +1,4 @@
-<% @pledges.each do |pledge| %>
+<% @project.pledges.each do |pledge| %>
   <% if pledge.user == current_user %>
   <p>You already backed this project !!!</p>
   <% end %>
@@ -40,6 +40,20 @@
   <% end %>
 <% end %>
 
+
+<h2>Updates</h2>
+<% @project.updates.each do |update| %>
+<div class="">
+<p>Date: <%= update.created_at %></p>
+<p><%= update.title %></p>
+<p>Notes:<%= update.notes %></p>
+</div>
+<% end %>
+
+<h2>Rewards</h2>
+<% @project.rewards.each do |reward| %>
+  <p><%= number_to_currency(reward.dollar_amount) %></p>
+  <p><%= reward.description %></p>
 <% if @project.rewards.length > 0 %>
   <h2>Rewards:</h2>
   <% @project.rewards.each do |reward| %>
@@ -58,15 +72,11 @@
 
 <% if current_user == @project.user && @project.pledges.length > 0 %>
   <h2>Backers:</h2>
-
-  <% @pledges.each do |pledge| %>
-    <% backer = User.find(pledge.user_id) %>
-    <div>
-      <%= link_to "#{backer.first_name} #{backer.last_name}", user_path(backer) %> <%= %> | $<%= pledge.dollar_amount %>
-    </div>
+  <% @project.pledges.each do |pledge| %>
+  <% backer = User.find(pledge.user_id) %>
+  <%= link_to "#{backer.first_name} #{backer.last_name}", user_path(backer) %> <%= %> | $<%= pledge.dollar_amount %>
   <% end %>
-
+  <%= render partial: "updates/form", locals: {project: @project, update: @update} %>
   <br />
-
   <%= link_to "Add new reward", new_project_reward_path(@project) %>
 <% end %>
