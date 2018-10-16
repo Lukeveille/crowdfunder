@@ -1,3 +1,9 @@
+<% @pledges.each do |pledge| %>
+  <% if pledge.user_id == current_user.id %>
+  <p>You already backed this project !!!</p>
+  <% end %>
+<% end %>
+
 <h1><%= @project.title %></h1>
 
 <% if @project.image.present? %>
