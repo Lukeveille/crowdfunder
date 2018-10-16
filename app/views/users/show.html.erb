@@ -1,15 +1,26 @@
 <h1><%= @user.first_name %> <%= @user.last_name %></h1>
 
-<h2>Projects Owned:</h2>
-<% @projects.each do |prj| %>
-<div class="">
-<%= link_to("#{prj.title}", project_path(prj)) %>
-<% end %>
-</div>
 
-<h2>Projects Backed:</h2>
-<% @pledges.each do |pld| %>
-<div class="">
-<%= link_to("#{pld.project.title}", project_path(pld.project)) %>
+<% if @projects.length > 0 %>
+  <h2>Projects Owned:</h2>
+  <% @projects.each do |prj| %>
+    <div class="">
+    <%= link_to("#{prj.title}", project_path(prj)) %>
+    <% if prj.total_amount_pledged > 0 %>
+     | <%= number_to_currency(prj.total_amount_pledged) %>
+    <% end %>
+    </div>
+  <% end %>
 <% end %>
-</div>
+
+<% if @pledges.length > 0 %>
+  <h2>Projects Backed:</h2>
+  <% @pledges.each do |pld| %>
+    <div class="">
+    <%= link_to("#{pld.project.title}", project_path(pld.project)) %> | <%= number_to_currency(pld.dollar_amount) %>
+    </div>
+  <% end %>
+
+  <h2>Total Pledged: <%= number_to_currency(@total_amount_pledged) %></h2>
+
+<% end %>

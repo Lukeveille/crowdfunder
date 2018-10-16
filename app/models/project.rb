@@ -21,4 +21,8 @@ class Project < ActiveRecord::Base
       errors.add(:start_date, "Start date cannot be in the past.")
     end
   end
+
+  def total_amount_pledged
+    self.pledges.sum(:dollar_amount)
+  end
 end

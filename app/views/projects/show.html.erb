@@ -14,12 +14,18 @@
   <%= image_tag @project.image %>
 <% end %>
 
-<p>Owner of this project: <%= @owner.first_name %> <%= @owner.last_name %> <%= link_to("See Profile",user_path(@project.user)) %></p>
+<p>Owner of this project: <%= link_to "#{@owner.first_name} #{@owner.last_name}", user_path(@owner) %></p>
 
 <p><%= @project.description %></p>
 <p>Goal: <%= number_to_currency(@project.goal) %></p>
+<% if @project.pledges.length > 0 %>
+  <h2>Total Raised: <%= number_to_currency(@project.total_amount_pledged) %></h2>
+<% end %>
 <p>Fundraising starts: <%= @project.start_date.strftime("%A %b %d %Y") %></p>
 <p>Deadline: <%= @project.end_date.strftime("%A %b %d %Y") %></p>
+
+
+
 
 <% if @project.errors.any? %>
   <% @project.errors.full_messages.each do |msg| %>
@@ -27,10 +33,13 @@
   <% end %>
 <% end %>
 
-<%= form_for [@project, Pledge.new] do |f| %>
-  <%= f.number_field :dollar_amount, value: @project.rewards.minimum(:dollar_amount), step: 0.01 %>
-  <%= f.submit "Pledge" %>
+<% if current_user && @project.user != current_user %>
+  <%= form_for [@project, Pledge.new] do |f| %>
+    <%= f.number_field :dollar_amount, value: @project.rewards.minimum(:dollar_amount), step: 0.01 %>
+    <%= f.submit "Pledge" %>
+  <% end %>
 <% end %>
+
 
 <h2>Updates</h2>
 <% @project.updates.each do |update| %>
@@ -45,21 +54,29 @@
 <% @project.rewards.each do |reward| %>
   <p><%= number_to_currency(reward.dollar_amount) %></p>
   <p><%= reward.description %></p>
+<% if @project.rewards.length > 0 %>
+  <h2>Rewards:</h2>
+  <% @project.rewards.each do |reward| %>
+    <p><%= number_to_currency(reward.dollar_amount) %></p>
+    <p><%= reward.description %></p>
 
-  <p>
-    <small>
-      <%= link_to "Remove reward", project_reward_path(@project, reward), method: 'delete' %>
-    </small>
-  </p>
+    <% if current_user == @project.user %>
+      <p>
+        <small>
+          <%= link_to "Remove reward", project_reward_path(@project, reward), method: 'delete' %>
+        </small>
+      </p>
+    <% end %>
+  <% end %>
 <% end %>
 
-
-<% if current_user == @project.user %>
+<% if current_user == @project.user && @project.pledges.length > 0 %>
   <h2>Backers:</h2>
   <% @project.pledges.each do |pledge| %>
   <% backer = User.find(pledge.user_id) %>
-  <div><%= backer.first_name %> <%=backer.last_name %> <%= pledge.dollar_amount %>$</div>
+  <%= link_to "#{backer.first_name} #{backer.last_name}", user_path(backer) %> <%= %> | $<%= pledge.dollar_amount %>
   <% end %>
   <%= render partial: "updates/form", locals: {project: @project, update: @update} %>
+  <br />
   <%= link_to "Add new reward", new_project_reward_path(@project) %>
 <% end %>
