@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_16_210356) do
+ActiveRecord::Schema.define(version: 2018_10_16_212247) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,8 @@ ActiveRecord::Schema.define(version: 2018_10_16_210356) do
     t.float "dollar_amount"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer "limit", default: 5
+    t.integer "total_claims", default: 0
   end
 
   create_table "updates", force: :cascade do |t|
