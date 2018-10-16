@@ -47,6 +47,14 @@ ActiveRecord::Schema.define(version: 2018_10_16_212247) do
     t.integer "total_claims", default: 0
   end
 
+  create_table "updates", force: :cascade do |t|
+    t.string "title"
+    t.text "notes"
+    t.integer "project_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
