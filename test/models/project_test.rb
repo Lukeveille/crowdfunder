@@ -2,6 +2,38 @@ require 'test_helper'
 
 class ProjectTest < ActiveSupport::TestCase
 
+  def test_total_amount_pledge_sum
+    project_owner = new_user
+    project_owner.save
+    new_project = Project.create!(
+      title:       'Cool new boardgame',
+      description: 'Trade sheep',
+      start_date:  Date.today + 1.day,
+      end_date:    Date.today + 1.month,
+      goal:        50000,
+      user:        project_owner
+    )
+    user = new_user
+    user.save
+    Pledge.create(
+      dollar_amount: 200,
+      project: new_project,
+      user: user
+    )
+    Pledge.create(
+      dollar_amount: 200,
+      project: new_project,
+      user: user
+    )
+
+    actual = new_project.total_amount_pledged
+    expected = 400
+
+    assert_equal(expected, actual)
+  end
+
+
+
   def test_valid_project_can_be_created
     project = new_project_with_user
     project.save
@@ -55,7 +87,7 @@ class ProjectTest < ActiveSupport::TestCase
     User.new(
       first_name:            'Sally',
       last_name:             'Lowenthal',
-      email:                 'sally@example.com',
+      email:                 "#{rand(99)}@gmail.com",
       password:              'passpass',
       password_confirmation: 'passpass'
     )
