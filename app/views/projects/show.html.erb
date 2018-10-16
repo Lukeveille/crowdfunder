@@ -27,11 +27,13 @@
   <p><%= number_to_currency(reward.dollar_amount) %></p>
   <p><%= reward.description %></p>
 
-  <p>
-    <small>
-      <%= link_to "Remove reward", project_reward_path(@project, reward), method: 'delete' %>
-    </small>
-  </p>
+  <% if current_user == @project.user %>
+    <p>
+      <small>
+        <%= link_to "Remove reward", project_reward_path(@project, reward), method: 'delete' %>
+      </small>
+    </p>
+  <% end %>
 <% end %>
 
 <% if current_user == @project.user %>
@@ -40,9 +42,6 @@
   <% backer = User.find(pledge.user_id) %>
   <div><%= backer.first_name %> <%=backer.last_name %></div>
   <% end %>
+
+  <%= link_to "Add new reward", new_project_reward_path(@project) %>
 <% end %>
-
-
-
-
-<%= link_to "Add new reward", new_project_reward_path(@project) %>
