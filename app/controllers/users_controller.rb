@@ -22,5 +22,10 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @projects = @user.projects
     @pledges = Pledge.where(user_id: @user.id)
+    
+    @total_pledged = 0
+    @pledges.each do |pledge|
+      @total_pledged += pledge.dollar_amount
+    end
   end
 end
