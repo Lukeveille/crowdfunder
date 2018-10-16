@@ -6,8 +6,8 @@
   <% @projects.each do |prj| %>
     <div class="">
     <%= link_to("#{prj.title}", project_path(prj)) %>
-    <% if prj.total_pledged > 0 %>
-     | <%= number_to_currency(prj.total_pledged) %>
+    <% if prj.total_amount_pledged > 0 %>
+     | <%= number_to_currency(prj.total_amount_pledged) %>
     <% end %>
     </div>
   <% end %>
@@ -21,6 +21,6 @@
     </div>
   <% end %>
 
-  <h2>Total Pledged: <%= number_to_currency(@total_pledged) %></h2>
+  <h2>Total Pledged: <%= number_to_currency(@total_amount_pledged) %></h2>
 
 <% end %>
