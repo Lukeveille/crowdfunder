@@ -2,11 +2,26 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+a {
+  text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+main {
+  text-align: center;
+}
+
 .project {
   text-align: center;
   margin: 1rem 0;
   padding: 1rem 0;
   background-color: #f9f9f9;
+}
+.project, img {
+  width: 400px;
+  display: inline-block;
 }
 
 .project-image > img {

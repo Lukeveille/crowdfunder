@@ -1,5 +1,5 @@
 <% @pledges.each do |pledge| %>
-  <% if pledge.user_id == current_user.id %>
+  <% if pledge.user == current_user %>
   <p>You already backed this project !!!</p>
   <% end %>
 <% end %>
@@ -27,25 +27,28 @@
   <% end %>
 <% end %>
 
-<%= form_for [@project, Pledge.new] do |f| %>
-  <%= f.number_field :dollar_amount, value: @project.rewards.minimum(:dollar_amount), step: 0.01 %>
-  <%= f.submit "Pledge" %>
-<% end %>
-
-<h2>Rewards</h2>
-<% @project.rewards.each do |reward| %>
-  <p><%= number_to_currency(reward.dollar_amount) %></p>
-  <p><%= reward.description %></p>
-
-  <% if current_user == @project.user %>
-    <p>
-      <small>
-        <%= link_to "Remove reward", project_reward_path(@project, reward), method: 'delete' %>
-      </small>
-    </p>
+<% if current_user && @project.user != current_user %>
+  <%= form_for [@project, Pledge.new] do |f| %>
+    <%= f.number_field :dollar_amount, value: @project.rewards.minimum(:dollar_amount), step: 0.01 %>
+    <%= f.submit "Pledge" %>
   <% end %>
 <% end %>
 
+<% if @project.rewards.length > 0 %>
+  <h2>Rewards:</h2>
+  <% @project.rewards.each do |reward| %>
+    <p><%= number_to_currency(reward.dollar_amount) %></p>
+    <p><%= reward.description %></p>
+
+    <% if current_user == @project.user %>
+      <p>
+        <small>
+          <%= link_to "Remove reward", project_reward_path(@project, reward), method: 'delete' %>
+        </small>
+      </p>
+    <% end %>
+  <% end %>
+<% end %>
 
 <% if current_user == @project.user %>
   <h2>Backers:</h2>
