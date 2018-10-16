@@ -9,6 +9,7 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find(params[:id])
     @pledges = @project.pledges
+    @owner = User.find(@project.user_id)
   end
 
   def new
@@ -26,7 +27,7 @@ class ProjectsController < ApplicationController
     @project.image = params[:project][:image]
     @project.user = current_user
 
-    if @project.save!
+    if @project.save
       redirect_to projects_url
     else
       render :new
