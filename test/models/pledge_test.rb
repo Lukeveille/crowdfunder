@@ -13,7 +13,6 @@ class PledgeTest < ActiveSupport::TestCase
   end
 
 
-
   def test_a_pledge_can_be_created
     pledge = Pledge.create(
       dollar_amount: 99.00,

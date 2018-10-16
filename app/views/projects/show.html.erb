@@ -17,12 +17,16 @@
 <p>Owner of this project: <%= link_to "#{@owner.first_name} #{@owner.last_name}", user_path(@owner) %></p>
 
 <p><%= @project.description %></p>
+<p>Total funds raised: <%= @project.total_amount_pledged%></p>
 <p>Goal: <%= number_to_currency(@project.goal) %></p>
 <% if @project.pledges.length > 0 %>
   <h2>Total Raised: <%= number_to_currency(@project.total_pledged) %></h2>
 <% end %>
 <p>Fundraising starts: <%= @project.start_date.strftime("%A %b %d %Y") %></p>
 <p>Deadline: <%= @project.end_date.strftime("%A %b %d %Y") %></p>
+
+
+
 
 <% if @project.errors.any? %>
   <% @project.errors.full_messages.each do |msg| %>
