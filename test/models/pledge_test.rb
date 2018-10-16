@@ -2,6 +2,18 @@ require_relative '../test_helper'
 
 class PledgeTest < ActiveSupport::TestCase
 
+  def test_pledge_dollar_amount_must_be_positive
+    pledge = Pledge.create(
+      dollar_amount: -1,
+      project: new_project,
+      user: new_user
+    )
+    pledge.save
+    assert pledge.invalid?
+  end
+
+
+
   def test_a_pledge_can_be_created
     pledge = Pledge.create(
       dollar_amount: 99.00,
