@@ -1,5 +1,5 @@
-<% @pledges.each do |pledge| %>
-  <% if pledge.user_id == current_user.id %>
+<% @project.pledges.each do |pledge| %>
+  <% if pledge.user == current_user %>
   <p>You already backed this project !!!</p>
   <% end %>
 <% end %>
@@ -32,6 +32,15 @@
   <%= f.submit "Pledge" %>
 <% end %>
 
+<h2>Updates</h2>
+<% @project.updates.each do |update| %>
+<div class="">
+<p>Date: <%= update.created_at %></p>
+<p><%= update.title %></p>
+<p>Notes:<%= update.notes %></p>
+</div>
+<% end %>
+
 <h2>Rewards</h2>
 <% @project.rewards.each do |reward| %>
   <p><%= number_to_currency(reward.dollar_amount) %></p>
@@ -47,9 +56,9 @@
 
 <% if current_user == @project.user %>
   <h2>Backers:</h2>
-  <% @pledges.each do |pledge| %>
+  <% @project.pledges.each do |pledge| %>
   <% backer = User.find(pledge.user_id) %>
-  <div><%= backer.first_name %> <%=backer.last_name %></div>
+  <div><%= backer.first_name %> <%=backer.last_name %> <%= pledge.dollar_amount %>$</div>
   <% end %>
   <%= render partial: "updates/form", locals: {project: @project, update: @update} %>
   <%= link_to "Add new reward", new_project_reward_path(@project) %>
