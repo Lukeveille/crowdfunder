@@ -10,6 +10,11 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @pledges = @project.pledges
     @owner = User.find(@project.user_id)
+
+    @total_pledged = 0
+    @project.pledges.each do |pledge|
+      @total_pledged += pledge.dollar_amount
+    end
   end
 
   def new
@@ -32,6 +37,6 @@ class ProjectsController < ApplicationController
     else
       render :new
     end
-   end
+  end
 
 end

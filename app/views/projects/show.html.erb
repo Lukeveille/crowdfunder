@@ -50,7 +50,7 @@
   <% end %>
 <% end %>
 
-<% if current_user == @project.user %>
+<% if current_user == @project.user && @project.pledges.length > 0 %>
   <h2>Backers:</h2>
   <% @pledges.each do |pledge| %>
   <% backer = User.find(pledge.user_id) %>
