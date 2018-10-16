@@ -51,9 +51,6 @@
   <% backer = User.find(pledge.user_id) %>
   <div><%= backer.first_name %> <%=backer.last_name %></div>
   <% end %>
+  <%= render partial: "updates/form", locals: {project: @project, update: @update} %>
+  <%= link_to "Add new reward", new_project_reward_path(@project) %>
 <% end %>
-
-
-
-
-<%= link_to "Add new reward", new_project_reward_path(@project) %>

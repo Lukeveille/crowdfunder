@@ -10,6 +10,7 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @pledges = @project.pledges
     @owner = User.find(@project.user_id)
+    @update = Update.new
   end
 
   def new
