@@ -8,9 +8,11 @@ a {
 a:hover {
     text-decoration: underline;
 }
-
 body, .project {
   text-align: center;
+}
+small {
+  margin: .5em;
 }
 
 .project {
@@ -39,4 +41,12 @@ body, .project {
 
 .project-days-left {
   font-size: 0.75em;
+}
+
+.reward-box, .update-box {
+  border: 1px solid black;
+  display: inline-block;
+  min-width: 250px;
+  margin: .5em auto;
+  border-radius: 10px;
 }
