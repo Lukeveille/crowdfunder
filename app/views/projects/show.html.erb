@@ -37,41 +37,60 @@
   <% end %>
 <% end %>
 
-<% if current_user && @project.user != current_user %>
-  <%= form_for [@project, Pledge.new] do |f| %>
-    <%= f.number_field :dollar_amount, value: @project.rewards.minimum(:dollar_amount), step: 0.01 %>
-    <%= f.submit "Pledge" %>
-  <% end %>
-<% end %>
-
 <% if @project.updates.length > 0 && (@project.user == current_user || @project.pledges.find_by(user: current_user)) %>
   <h2>Updates:</h2>
   <% @project.updates.each do |update| %>
-    <div class="update">
-      <h3><%= update.title %></h3>
-      <p><%= update.notes %></p>
-      <p>Posted: <%= update.created_at.strftime("%B %d, %Y") %> at <%= update.created_at.strftime("%I:%M %p ") %></p>
+    <div class="updates">
+      <div class="update-box">
+        <h3><%= update.title %></h3>
+        <p><%= update.notes %></p>
+        <small>Posted: <%= update.created_at.strftime("%B %d, %Y") %> at <%= update.created_at.strftime("%I:%M %p ") %></small>
+      </div>
+
     </div>
   <% end %>
 <% end %>
 
 <% if @project.rewards.length > 0 %>
-  <h2>Rewards:</h2>
-  <% @project.rewards.each do |reward| %>
-    <p><%= number_to_currency(reward.dollar_amount) %></p>
-    <p><%= reward.description %></p>
-    <%= form_for [@project, Pledge.new] do |f| %>
-      <%= f.number_field :dollar_amount, value: @project.rewards.minimum(:dollar_amount), step: 0.01 %>
-      <%= f.submit "Pledge" %>
-    <% end %>
 
-    <% if current_user == @project.user %>
-      <p>
-        <small>
-          <%= link_to "Remove reward", project_reward_path(@project, reward), method: 'delete' %>
-        </small>
-      </p>
-    <% end %>
+  <% if @project.user != current_user %>
+    <h2>Rewards:</h2>
+  <% else %>
+    <h2>Rewards Claimed:</h2>
+  <% end %>
+
+  <% @project.rewards.each do |reward| %>
+    <div class="rewards">
+      <div class="reward-box">
+        <h4><%= reward.description %></h4>
+
+        <% if current_user != @project.user %>
+
+          <p><%= number_to_currency(reward.dollar_amount) %>
+
+            <% if current_user && reward.pledges.length < reward.limit %>
+           | <%= link_to "Pledge", new_project_path %></p>
+            <% end %>
+
+        <% else %>
+
+          <p><%= reward.pledges.length %> out of <%= reward.limit %> claimed</p>
+            <small>
+              <%= link_to "Remove reward", project_reward_path(@project, reward), method: 'delete' %>
+            </small>
+
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+<% end %>
+
+<% if current_user && @project.user != current_user %>
+  <h4>Custom Pledge</h4>
+  <%= form_for [@project, Pledge.new] do |f| %>
+    <%= f.number_field :dollar_amount, value: @project.rewards.minimum(:dollar_amount), step: 0.01 %>
+    <%= f.submit "Pledge" %>
   <% end %>
 <% end %>
 
@@ -81,9 +100,9 @@
     <% backer = User.find(pledge.user_id) %>
     <p><%= link_to "#{backer.first_name} #{backer.last_name}", user_path(backer) %> <%= %> | $<%= pledge.dollar_amount %></p>
   <% end %>
+<% end %>
 
-  <h2>Rewards Claimed:</h2>
-
+<% if current_user == @project.user %>
   <div>
     <%= link_to "Add Project Update", new_project_update_path(@project) %>
     <br/>

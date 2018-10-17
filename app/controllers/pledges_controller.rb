@@ -3,14 +3,25 @@ class PledgesController < ApplicationController
 
   def create
     @project = Project.find(params[:project_id])
-
     @pledge = @project.pledges.build
+
     @pledge.dollar_amount = params[:pledge][:dollar_amount]
     @pledge.user = current_user
+
+    @project.rewards.each do |reward|
+      if @pledge.dollar_amount >= reward.dollar_amount
+        @qualifying_reward = reward
+      end
+    end
+
+    if @qualifying_reward
+      @pledge.reward = @qualifying_reward
+    end
 
     if @pledge.save
       redirect_to project_url(@project), notice: "You have successfully backed #{@project.title}!"
     else
+      @owner = User.find(@project.user_id)
       flash.now[:alert] = @pledge.errors.full_messages.first
       render 'projects/show'
     end
