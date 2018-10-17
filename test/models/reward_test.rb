@@ -48,7 +48,7 @@ class RewardTest < ActiveSupport::TestCase
       description: 'The Negaverse',
       project: project
     )
-
+    
     assert reward.invalid?, 'Reward should be invalid with a negative dollar amount'
   end
 
