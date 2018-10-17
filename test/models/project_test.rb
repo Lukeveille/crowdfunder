@@ -73,6 +73,10 @@ class ProjectTest < ActiveSupport::TestCase
     assert project.invalid?, 'Project should not save if the start date is in the past.'
   end
 
+  def test_project_total
+    project = new_project_with_user
+  end
+
   def new_project
     Project.new(
       title:       'Cool new boardgame',
@@ -90,6 +94,13 @@ class ProjectTest < ActiveSupport::TestCase
       email:                 "#{rand(99)}@gmail.com",
       password:              'passpass',
       password_confirmation: 'passpass'
+    )
+  end
+
+  def new_pledge_1
+    skip
+    Pledge.new(
+
     )
   end
 
