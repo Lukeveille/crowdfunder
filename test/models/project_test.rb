@@ -3,36 +3,24 @@ require 'test_helper'
 class ProjectTest < ActiveSupport::TestCase
 
   def test_total_amount_pledge_sum
-    project_owner = new_user
-    project_owner.save
-    new_project = Project.create!(
-      title:       'Cool new boardgame',
-      description: 'Trade sheep',
-      start_date:  Date.today + 1.day,
-      end_date:    Date.today + 1.month,
-      goal:        50000,
-      user:        project_owner
-    )
-    user = new_user
-    user.save
-    Pledge.create(
-      dollar_amount: 200,
-      project: new_project,
-      user: user
-    )
-    Pledge.create(
-      dollar_amount: 200,
-      project: new_project,
-      user: user
-    )
+    test_project = new_project_with_user
 
-    actual = new_project.total_amount_pledged
-    expected = 400
+    test_pledge1 = new_pledge
+    test_pledge1.project = test_project
+    test_pledge1.user = new_user
+    
+    test_pledge2 = new_pledge
+    test_pledge2.project = test_project
+    test_pledge2.user = new_user
 
-    assert_equal(expected, actual)
+    test_pledge1.save
+    test_pledge2.save
+
+    actual = test_project.total_amount_pledged
+    expected = test_pledge1.dollar_amount + test_pledge2.dollar_amount
+
+    assert_equal(expected, actual, msg = 'Project total is not calculating properly')
   end
-
-
 
   def test_valid_project_can_be_created
     project = new_project_with_user
@@ -57,12 +45,9 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   def test_project_invalid_if_end_date_before_start_date
-    # arrange
     project = new_project_with_user
     project.end_date = project.start_date - 1.day
-    # act
     project.save
-    # assert
     assert project.invalid?, 'Project should not save if end date is before start date.'
   end
 
@@ -73,16 +58,12 @@ class ProjectTest < ActiveSupport::TestCase
     assert project.invalid?, 'Project should not save if the start date is in the past.'
   end
 
-  def test_project_total
-    project = new_project_with_user
-  end
-
   def new_project
     Project.new(
       title:       'Cool new boardgame',
       description: 'Trade sheep',
-      start_date:  Date.today + 1.day,
-      end_date:    Date.today + 1.month,
+      start_date:  Time.now + 1.day,
+      end_date:    Time.now + 1.month,
       goal:        50000
     )
   end
@@ -97,10 +78,9 @@ class ProjectTest < ActiveSupport::TestCase
     )
   end
 
-  def new_pledge_1
-    skip
+  def new_pledge
     Pledge.new(
-
+      dollar_amount: 5
     )
   end
 

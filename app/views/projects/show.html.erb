@@ -1,31 +1,35 @@
-<% @project.pledges.each do |pledge| %>
-  <% if pledge.user == current_user %>
-  <p>You already backed this project !!!</p>
-  <% end %>
+<% user_pledges = @project.pledges.where(user: current_user) %>
+<% if user_pledges.length > 0 %>
+  <p>You have pledged <%= number_to_currency(user_pledges.sum(:dollar_amount)) %> to this project!</p>
 <% end %>
 
 <h1><%= @project.title %> <time class="project-days-left">
+  <br />
   <%= icon('clock-o') %>
   <%= "#{time_ago_in_words(@project.end_date)} #{( @project.end_date > Time.now.utc) ? 'remaining' : 'past deadline'}" %>
 </time>
 </h1>
 
+<h2>Goal: <%= number_to_currency(@project.goal) %></h2>
+
+<% if @project.pledges.length > 0 %>
+  <h3>Total Raised: <%= number_to_currency(@project.total_amount_pledged) %></h3>
+<% end %>
+
 <% if @project.image.present? %>
   <%= image_tag @project.image %>
 <% end %>
 
-<p>Owner of this project: <%= link_to "#{@owner.first_name} #{@owner.last_name}", user_path(@owner) %></p>
+<p>Owner of this project: 
+<% if @project.user == current_user %>
+  <%= link_to "You", user_path(@owner) %></p>
+<% else %>
+  <%= link_to "#{@owner.first_name} #{@owner.last_name}", user_path(@owner) %></p>
+<% end %>
 
 <p><%= @project.description %></p>
-<p>Goal: <%= number_to_currency(@project.goal) %></p>
-<% if @project.pledges.length > 0 %>
-  <h2>Total Raised: <%= number_to_currency(@project.total_amount_pledged) %></h2>
-<% end %>
 <p>Fundraising starts: <%= @project.start_date.strftime("%A %b %d %Y") %></p>
 <p>Deadline: <%= @project.end_date.strftime("%A %b %d %Y") %></p>
-
-
-
 
 <% if @project.errors.any? %>
   <% @project.errors.full_messages.each do |msg| %>
@@ -40,20 +44,17 @@
   <% end %>
 <% end %>
 
-
-<h2>Updates</h2>
-<% @project.updates.each do |update| %>
-  <div class="">
-  <p>Date: <%= update.created_at %></p>
-  <p><%= update.title %></p>
-  <p>Notes:<%= update.notes %></p>
-  </div>
+<% if @project.updates.length > 0 && (@project.user == current_user || @project.pledges.find_by(user: current_user)) %>
+  <h2>Updates:</h2>
+  <% @project.updates.each do |update| %>
+    <div class="update">
+      <h3><%= update.title %></h3>
+      <p><%= update.notes %></p>
+      <p>Posted: <%= update.created_at.strftime("%B %d, %Y") %> at <%= update.created_at.strftime("%I:%M %p ") %></p>
+    </div>
+  <% end %>
 <% end %>
 
-<h2>Rewards</h2>
-<% @project.rewards.each do |reward| %>
-  <p><%= number_to_currency(reward.dollar_amount) %></p>
-  <p><%= reward.description %></p>
 <% if @project.rewards.length > 0 %>
   <h2>Rewards:</h2>
   <% @project.rewards.each do |reward| %>
@@ -70,7 +71,6 @@
           <%= link_to "Remove reward", project_reward_path(@project, reward), method: 'delete' %>
         </small>
       </p>
-      <% end %>
     <% end %>
   <% end %>
 <% end %>
@@ -78,13 +78,15 @@
 <% if current_user == @project.user && @project.pledges.length > 0 %>
   <h2>Backers:</h2>
   <% @project.pledges.each do |pledge| %>
-  <% backer = User.find(pledge.user_id) %>
-  <%= link_to "#{backer.first_name} #{backer.last_name}", user_path(backer) %> <%= %> | $<%= pledge.dollar_amount %>
+    <% backer = User.find(pledge.user_id) %>
+    <p><%= link_to "#{backer.first_name} #{backer.last_name}", user_path(backer) %> <%= %> | $<%= pledge.dollar_amount %></p>
   <% end %>
 
   <h2>Rewards Claimed:</h2>
 
-  <%= render partial: "updates/form", locals: {project: @project, update: @update} %>
-  <br/>
-  <%= link_to "Add new reward", new_project_reward_path(@project) %>
+  <div>
+    <%= link_to "Add Project Update", new_project_update_path(@project) %>
+    <br/>
+    <%= link_to "Add New Reward", new_project_reward_path(@project) %>
+  </div>
 <% end %>

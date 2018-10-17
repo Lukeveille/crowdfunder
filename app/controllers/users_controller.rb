@@ -25,7 +25,7 @@ class UsersController < ApplicationController
     
     @user_total_pledged = 0
     @pledges.each do |pledge|
-      @total_pledged += pledge.dollar_amount
+      @user_total_pledged += pledge.dollar_amount
     end
   end
 end
