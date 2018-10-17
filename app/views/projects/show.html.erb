@@ -60,6 +60,10 @@
   <% @project.rewards.each do |reward| %>
     <p><%= number_to_currency(reward.dollar_amount) %></p>
     <p><%= reward.description %></p>
+    <%= form_for [@project, Pledge.new] do |f| %>
+      <%= f.number_field :dollar_amount, value: @project.rewards.minimum(:dollar_amount), step: 0.01 %>
+      <%= f.submit "Pledge" %>
+    <% end %>
 
     <% if current_user == @project.user %>
       <p>
@@ -77,11 +81,12 @@
     <% backer = User.find(pledge.user_id) %>
     <p><%= link_to "#{backer.first_name} #{backer.last_name}", user_path(backer) %> <%= %> | $<%= pledge.dollar_amount %></p>
   <% end %>
-  
-  <%# <%= render partial: "updates/form", locals: {project: @project, update: @update} %>
+
+  <h2>Rewards Claimed:</h2>
+
   <div>
-  <%= link_to "Add Project Update", new_project_update_path(@project) %>
-  <br/>
-  <%= link_to "Add New Reward", new_project_reward_path(@project) %>
+    <%= link_to "Add Project Update", new_project_update_path(@project) %>
+    <br/>
+    <%= link_to "Add New Reward", new_project_reward_path(@project) %>
   </div>
 <% end %>
