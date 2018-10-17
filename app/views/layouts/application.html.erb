@@ -26,9 +26,11 @@
       </nav>
     </header>
 
-    <% flash.each do |key, message| %>
-      <div class="flash-<%= key %>"><%= message %></div>
-    <% end %>
+    <%# <% flash.each do |key, message| %>
+    <div class="notice_box"><%= flash[:notice] %></div>
+    <%# <% end %>
+
+    <br />
 
     <main>
       <%= yield %>
