@@ -1,6 +1,5 @@
 <h1><%= @user.first_name %> <%= @user.last_name %></h1>
 
-
 <% if @projects.length > 0 %>
   <h2>Projects Owned:</h2>
   <% @projects.each do |prj| %>
@@ -18,9 +17,14 @@
   <% @pledges.each do |pld| %>
     <div class="">
     <%= link_to("#{pld.project.title}", project_path(pld.project)) %> | <%= number_to_currency(pld.dollar_amount) %>
+    
+    <% if pld.reward %>
+      | claimed "<%= pld.reward.description %>"
+    <% end %>
+
     </div>
   <% end %>
 
-  <h2>Total Pledged: <%= number_to_currency(@user_total_pledged) %></h2>
+  <h3>Total Pledged: <%= number_to_currency(@user_total_pledged) %></h3>
 
 <% end %>
