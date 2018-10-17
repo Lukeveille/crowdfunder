@@ -100,7 +100,9 @@
     <% backer = User.find(pledge.user_id) %>
     <p><%= link_to "#{backer.first_name} #{backer.last_name}", user_path(backer) %> <%= %> | $<%= pledge.dollar_amount %></p>
   <% end %>
+<% end %>
 
+<% if current_user == @project.user %>
   <div>
     <%= link_to "Add Project Update", new_project_update_path(@project) %>
     <br/>
