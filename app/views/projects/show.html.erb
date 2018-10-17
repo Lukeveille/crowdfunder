@@ -20,7 +20,7 @@
   <%= image_tag @project.image %>
 <% end %>
 
-<p>Owner of this project: 
+<p>Owner of this project:
 <% if @project.user == current_user %>
   <%= link_to "You", user_path(@owner) %></p>
 <% else %>
@@ -46,7 +46,7 @@
 
 <% if @project.updates.length > 0 && (@project.user == current_user || @project.pledges.find_by(user: current_user)) %>
   <h2>Updates:</h2>
-  <% @project.updates.each do |update| %>
+  <% @project.updates.order("created_at DESC").each do |update| %>
     <div class="update">
       <h3><%= update.title %></h3>
       <p><%= update.notes %></p>
