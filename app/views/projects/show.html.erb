@@ -68,13 +68,13 @@
 
           <p><%= number_to_currency(reward.dollar_amount) %>
 
-            <% if current_user %>
+            <% if current_user && reward.pledges.length < reward.limit %>
            | <%= link_to "Pledge", new_project_path %></p>
             <% end %>
 
         <% else %>
 
-          <p><%= reward.total_claims %> out of <%= reward.limit %> claimed</p>
+          <p><%= reward.pledges.length %> out of <%= reward.limit %> claimed</p>
             <small>
               <%= link_to "Remove reward", project_reward_path(@project, reward), method: 'delete' %>
             </small>
