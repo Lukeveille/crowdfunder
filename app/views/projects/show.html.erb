@@ -1,4 +1,7 @@
-<p>You have pledged <%= number_to_currency(@project.pledges.where(user: current_user).sum(:dollar_amount)) %> to this project!</p>
+<% user_pledges = @project.pledges.where(user: current_user) %>
+<% if user_pledges.length > 0 %>
+  <p>You have pledged <%= number_to_currency(user_pledges.sum(:dollar_amount)) %> to this project!</p>
+<% end %>
 
 <h1><%= @project.title %> <time class="project-days-left">
   <br />
@@ -23,7 +26,6 @@
 <% else %>
   <%= link_to "#{@owner.first_name} #{@owner.last_name}", user_path(@owner) %></p>
 <% end %>
-
 
 <p><%= @project.description %></p>
 <p>Fundraising starts: <%= @project.start_date.strftime("%A %b %d %Y") %></p>
