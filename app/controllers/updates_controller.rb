@@ -2,6 +2,7 @@ class UpdatesController < ApplicationController
 
   def new
     @update = Update.new
+    @project = Project.find(params[:project_id])
   end
 
   def create

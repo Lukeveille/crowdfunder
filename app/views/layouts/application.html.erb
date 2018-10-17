@@ -17,7 +17,7 @@
 
       <nav class="site-nav">
         <% if current_user %>
-          <%= link_to "#{current_user.email}", user_path(current_user) %> | 
+          Logged in as <%= link_to "#{current_user.first_name} #{current_user.last_name}", user_path(current_user) %> | 
           <%= link_to "Logout", :logout, method: :delete %>
         <% else %>
           <%= link_to "Register", new_user_path %> |

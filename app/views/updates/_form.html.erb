@@ -1,14 +1,15 @@
-<h2>Write Updates:</h2>
+<h2>Write Update:</h2>
 
 <%= form_for([project, update]) do |f| %>
-<div class="">
-<%= f.label :title %>
-<%= f.text_field :title %>
-</div>
-<div class="">
-<%= f.label :notes %>
-<%= f.text_field :notes %>
+  <div class="">
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
 
-<%= f.submit 'Submit' %>
-</div>
+  <div class="">
+    <%= f.label :notes %>
+    <%= f.text_area :notes %>
+  </div>
+
+  <%= f.submit 'Submit' %>
 <% end %>
