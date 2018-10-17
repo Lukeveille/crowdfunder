@@ -20,7 +20,7 @@
   <%= image_tag @project.image %>
 <% end %>
 
-<p>Owner of this project: 
+<p>Owner of this project:
 <% if @project.user == current_user %>
   <%= link_to "You", user_path(@owner) %></p>
 <% else %>
@@ -46,6 +46,7 @@
         <p><%= update.notes %></p>
         <small>Posted: <%= update.created_at.strftime("%B %d, %Y") %> at <%= update.created_at.strftime("%I:%M %p ") %></small>
       </div>
+
     </div>
   <% end %>
 <% end %>

@@ -19,14 +19,14 @@ end
               title: Faker::App.name,
               description: Faker::Lorem.paragraph,
               goal: rand(100000),
-              start_date: Time.now.utc - rand(60).days,
-              end_date: Time.now.utc + rand(10).days
+              start_date: Time.now.utc + rand(1..10).days,
+              end_date: Time.now.utc + rand(11..50).days
             )
 
   5.times do
     project.rewards.create!(
       description: Faker::Superhero.power,
-      dollar_amount: rand(100),
+      dollar_amount: rand(1..100),
     )
   end
 end
@@ -43,6 +43,6 @@ end
   Pledge.create!(
     user: backer,
     project: project,
-    dollar_amount: project.rewards.sample.dollar_amount + rand(10)
+    dollar_amount: project.rewards.sample.dollar_amount + rand(1..10)
   )
 end
