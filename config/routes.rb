@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :pages, only: [:index]
   resources :users, only: [:new, :create, :show]
   resources :user_sessions, only: [:create]
+  resources :categories, only: [:show, :index]
 
 
   # The priority is based upon order of creation: first created -> highest priority.
