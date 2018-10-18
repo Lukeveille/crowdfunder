@@ -29,6 +29,14 @@ ActiveRecord::Schema.define(version: 2018_10_18_163959) do
     t.integer "user_id"
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.text "comment"
+    t.integer "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+  end
+
   create_table "pledges", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.float "dollar_amount"
