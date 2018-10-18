@@ -41,3 +41,6 @@ group :test do
   gem 'guard', '~> 2.14.0'
   gem 'guard-minitest'
 end
+
+#gem 'factory_girl_rails'
+gem 'factory_bot'
