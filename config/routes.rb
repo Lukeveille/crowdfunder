@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  root "projects#index"
+  root "pages#index"
 
   get 'login' => 'user_sessions#new', :as => :login
   delete 'logout' => 'user_sessions#destroy', :as => :logout
-  get 'homepage' => 'page#homepage'
+
 
   resources :projects, only: [:index, :new, :create, :show] do
     resources :pledges, only: [:create]

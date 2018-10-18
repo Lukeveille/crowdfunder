@@ -11,4 +11,14 @@ class Pledge < ApplicationRecord
   def user_not_owner
     errors.add(:user, " cannot pledge towards own project!") if self.user == project.user
   end
+
+  def self.total_pledges
+    @total_ammount = 0
+    @pledges = Pledge.all
+    @pledges.each do |pledge|
+      @total_ammount += pledge.dollar_amount
+    end
+    @total_ammount
+  end
+
 end
