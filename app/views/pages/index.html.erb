@@ -1,0 +1,12 @@
+<h1>Projects started:</h1>
+<h2><%= @projects.length %></h2>
+
+<h1>Projects funded:</h1>
+<h2></h2>
+
+<h1>Total Pledges:</h1>
+<% @total_ammount = 0 %>
+<% @pledges.each do |pledge| %>
+<% @total_ammount += pledge.dollar_amount %>
+<% end %>
+<h2><%= @total_ammount %> $</h2>
