@@ -1,5 +1,5 @@
-Rails.application.routes.draw do
-  root "pages#index"
+ Rails.application.routes.draw do
+  root "projects#index"
 
   get 'login' => 'user_sessions#new', :as => :login
   delete 'logout' => 'user_sessions#destroy', :as => :logout
@@ -10,12 +10,15 @@ Rails.application.routes.draw do
     resources :rewards, only: [:new, :create, :destroy]
     resources :updates, only: [:new, :create, :destroy]
   end
+<<<<<<< HEAD
 
   resources :projects do
     resources :comments, except: [:index, :new, :show]
   end
 
   resources :pages, only: [:index]
+=======
+>>>>>>> master
   resources :users, only: [:new, :create, :show]
   resources :user_sessions, only: [:create]
 
