@@ -1,6 +1,7 @@
 class Comment < ApplicationRecord
   belongs_to :project
+  belongs_to :user
 
-  validates :comment, presence: true
+  validates :comment, :project_id, :user_id, presence: true
 
 end

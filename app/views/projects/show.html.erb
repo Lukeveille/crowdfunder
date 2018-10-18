@@ -24,7 +24,7 @@
 <% if @project.user == current_user %>
   <%= link_to "You", user_path(@owner) %></p>
 <% else %>
-  <%= link_to "#{@owner.first_name} #{@owner.last_name}", user_path(@owner) %></p>
+  <%= link_to @owner.full_name, user_path(@owner) %></p>
 <% end %>
 
 <p><%= @project.description %></p>
@@ -46,9 +46,24 @@
         <p><%= update.notes %></p>
         <small>Posted: <%= update.created_at.strftime("%B %d, %Y") %> at <%= update.created_at.strftime("%I:%M %p ") %></small>
       </div>
-
     </div>
   <% end %>
+<% end %>
+
+<% if @project.comments.length > 0 && (@project.user == current_user || @project.pledges.find_by(user: current_user)) %>
+  <h2>Comments:</h2>
+  <% @project.comments.each do |comment| %>
+    <div class="comments">
+      <div class="comment-box">
+        <p><%= comment.comment %></p>
+        <small>Posted by <%= comment.user.full_name %>
+        <br />
+        on <%= comment.created_at.strftime("%B %d, %Y") %> at <%= comment.created_at.strftime("%I:%M %p ") %>
+        </small>
+      </div>
+    </div>
+  <% end %>
+
 <% end %>
 
 <% if @project.rewards.length > 0 %>
