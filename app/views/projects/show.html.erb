@@ -62,19 +62,25 @@
   <% @project.rewards.each do |reward| %>
     <div class="rewards">
       <div class="reward-box">
+
         <h4><%= reward.description %></h4>
 
         <% if current_user != @project.user %>
-            <% if current_user && reward.pledges.length < reward.limit %>
-              <%= form_for [@project, Pledge.new] do |f| %>
-                <%= f.hidden_field :reward_id, value: reward.id %>
-                $<%= f.number_field :dollar_amount, value: reward.dollar_amount, min: reward.dollar_amount, step: 0.01 %>
-                <br />
-                <%= f.submit "Pledge" %>
-              <% end %>
-            <% else %>
-              <p>These have all been claimed!</p>
+          <% if current_user && reward.pledges.length < reward.limit %>
+
+            <%= form_for [@project, Pledge.new] do |f| %>
+              <%= f.hidden_field :reward_id, value: reward.id %>
+              $<%= f.number_field :dollar_amount, value: reward.dollar_amount, min: reward.dollar_amount, step: 0.01 %>
+              <br />
+              <%= f.submit "Pledge" %>
             <% end %>
+
+          <% elsif reward.pledges.length == reward.limit %>
+            <p>These have all been claimed!</p>
+          <% else %>
+            <p><%= number_to_currency(reward.dollar_amount) %></p>
+          <% end %>
+
         <% else %>
 
           <p><%= reward.pledges.length %> out of <%= reward.limit %> claimed</p>
@@ -83,6 +89,7 @@
             </small>
 
         <% end %>
+
       </div>
     </div>
   <% end %>
