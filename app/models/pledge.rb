@@ -16,8 +16,4 @@ class Pledge < ApplicationRecord
       errors.add(:base, "Reward pledge cannot be lower than reward cost!") if self.dollar_amount < reward.dollar_amount
     end
   end
-
-  # def needs_reward_or_dollar_amount
-  #   errors.add(:base, " cannot pledge negative dollars") if self.reward_id == nil && self.dollar_amount == nil 
-  # end
 end
