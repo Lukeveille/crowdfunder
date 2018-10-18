@@ -11,6 +11,7 @@ class ProjectsController < ApplicationController
     if params[:search]
         @projects = Project.search(params[:search])
     end
+
   end
 
   def show
@@ -26,6 +27,7 @@ class ProjectsController < ApplicationController
   def new
     @project = Project.new
     @project.rewards.build
+    @categories = Category.all
   end
 
   def create
@@ -36,11 +38,13 @@ class ProjectsController < ApplicationController
     @project.start_date = params[:project][:start_date]
     @project.end_date = params[:project][:end_date]
     @project.image = params[:project][:image]
+    @project.category_id = params[:project][:category_id]
     @project.user = current_user
 
     if @project.save
       redirect_to projects_url
     else
+      @categories = Category.all
       render :new
     end
   end
