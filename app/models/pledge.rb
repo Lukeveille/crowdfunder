@@ -11,9 +11,20 @@ class Pledge < ApplicationRecord
     errors.add(:user, " cannot pledge towards own project!") if self.user == project.user
   end
 
+
+  def self.total_pledges
+    @total_ammount = 0
+    @pledges = Pledge.all
+    @pledges.each do |pledge|
+      @total_ammount += pledge.dollar_amount
+    end
+    @total_ammount
+  end
+
   def dollar_amount_equals_reward
     if reward
       errors.add(:base, "Reward pledge cannot be lower than reward cost!") if self.dollar_amount < reward.dollar_amount
     end
   end
+
 end
