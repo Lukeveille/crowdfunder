@@ -1,0 +1,10 @@
+<p>Write Comment:</p>
+
+<%= form_for([project, comment]) do |f| %>
+  <div class="">
+    <%= f.label :comment %>
+    <%= f.text_area :comment %>
+  </div>
+
+  <%= f.submit 'Submit' %>
+<% end %>

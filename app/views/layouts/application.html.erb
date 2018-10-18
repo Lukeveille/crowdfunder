@@ -25,11 +25,11 @@
         <% end %>
       </nav>
 
-      <h2>Projects started: <%= Project.all.length %></h2>
+      <h2>Projects Started: <%= Project.all.length %></h2>
 
-      <h2>Projects funded: <%= Project.projects_funded.length %> </h2>
+      <h2>Projects Funded: <%= Project.projects_funded.length %> </h2>
 
-      <h2>Total Pledges: <%= Pledge.all.sum("dollar_amount") %> $ </h2>
+      <h2>Total Pledged: <%= number_to_currency(Pledge.all.sum("dollar_amount")) %></h2>
 
     </header>
 
