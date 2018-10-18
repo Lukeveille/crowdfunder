@@ -25,4 +25,8 @@ class Project < ActiveRecord::Base
   def total_amount_pledged
     self.pledges.sum(:dollar_amount)
   end
+
+  def self.search(search)
+    where("title ILIKE ?", "%#{search}%")
+  end
 end
