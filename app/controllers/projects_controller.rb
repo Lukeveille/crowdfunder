@@ -4,6 +4,8 @@ class ProjectsController < ApplicationController
   def index
     @projects = Project.all
     @projects = @projects.order(:end_date)
+    @total_ammount_pledged = Pledge.total_pledges
+    @projects_funded = Project.projects_funded
   end
 
   def show
