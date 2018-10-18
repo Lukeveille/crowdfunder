@@ -8,7 +8,7 @@ class ProjectTest < ActiveSupport::TestCase
     test_pledge1 = new_pledge
     test_pledge1.project = test_project
     test_pledge1.user = new_user
-    
+
     test_pledge2 = new_pledge
     test_pledge2.project = test_project
     test_pledge2.user = new_user
@@ -58,31 +58,31 @@ class ProjectTest < ActiveSupport::TestCase
     assert project.invalid?, 'Project should not save if the start date is in the past.'
   end
 
-  def new_project
-    Project.new(
-      title:       'Cool new boardgame',
-      description: 'Trade sheep',
-      start_date:  Time.now + 1.day,
-      end_date:    Time.now + 1.month,
-      goal:        50000
-    )
-  end
-
-  def new_user
-    User.new(
-      first_name:            'Sally',
-      last_name:             'Lowenthal',
-      email:                 "#{rand(99)}@gmail.com",
-      password:              'passpass',
-      password_confirmation: 'passpass'
-    )
-  end
-
-  def new_pledge
-    Pledge.new(
-      dollar_amount: 5
-    )
-  end
+  # def new_project
+  #   Project.new(
+  #     title:       'Cool new boardgame',
+  #     description: 'Trade sheep',
+  #     start_date:  Time.now + 1.day,
+  #     end_date:    Time.now + 1.month,
+  #     goal:        50000
+  #   )
+  # end
+  #
+  # def new_user
+  #   User.new(
+  #     first_name:            'Sally',
+  #     last_name:             'Lowenthal',
+  #     email:                 "#{rand(99)}@gmail.com",
+  #     password:              'passpass',
+  #     password_confirmation: 'passpass'
+  #   )
+  # end
+  #
+  # def new_pledge
+  #   Pledge.new(
+  #     dollar_amount: 5
+  #   )
+  # end
 
   def new_project_with_user
     owner = new_user
