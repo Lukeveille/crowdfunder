@@ -17,13 +17,20 @@
 
       <nav class="site-nav">
         <% if current_user %>
-          Logged in as <%= link_to "#{current_user.first_name} #{current_user.last_name}", user_path(current_user) %> | 
+          Logged in as <%= link_to "#{current_user.first_name} #{current_user.last_name}", user_path(current_user) %> |
           <%= link_to "Logout", :logout, method: :delete %>
         <% else %>
           <%= link_to "Register", new_user_path %> |
           <%= link_to "Login", :login %>
         <% end %>
       </nav>
+
+      <h2>Projects Started: <%= Project.all.length %></h2>
+
+      <h2>Projects Funded: <%= Project.projects_funded.length %> </h2>
+
+      <h2>Total Pledged: <%= number_to_currency(Pledge.all.sum("dollar_amount")) %></h2>
+
     </header>
 
     <%# <% flash.each do |key, message| %>
