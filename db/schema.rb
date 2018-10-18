@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2018_10_18_163959) do
     t.datetime "updated_at"
     t.string "image"
     t.integer "user_id"
+    t.integer "category_id"
   end
 
   create_table "rewards", id: :serial, force: :cascade do |t|

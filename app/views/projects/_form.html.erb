@@ -29,5 +29,9 @@
     <%= f.date_field :end_date %>
   </div>
 
+  <div>
+    <%= f.collection_select :category_id, @categories, :id, :name %>
+  </div>
+
   <%= f.submit %>
 <% end %>

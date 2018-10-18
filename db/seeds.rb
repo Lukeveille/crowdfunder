@@ -46,3 +46,23 @@ end
     dollar_amount: project.rewards.sample.dollar_amount + rand(1..10)
   )
 end
+
+Category.create(
+  name: "Games"
+)
+
+Category.create(
+  name: "Art"
+)
+
+Category.create(
+  name: "Music"
+)
+
+Category.create(
+  name: "Design & Tech"
+)
+
+Category.create(
+  name: "Food & Craft"
+)
