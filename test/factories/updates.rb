@@ -1,4 +1,4 @@
 FactoryBot.define do
-  factory :updates do
+  factory :update do
   end
 end

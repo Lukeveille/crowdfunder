@@ -1,4 +1,4 @@
 FactoryBot.define do
-  factory :rewards do
+  factory :reward do
   end
 end
