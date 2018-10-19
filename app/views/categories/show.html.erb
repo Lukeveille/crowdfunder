@@ -1,5 +1,5 @@
 <% @projects.each do |project| %>
-  <% if project.category_id == @category.id %>
+  <% if project.category_id == @category.id && Time.now.utc < project.end_date%>
   <article class="project">
     <%= link_to project, class: 'project-link' do %>
       <figure class="project-image">
@@ -17,3 +17,4 @@
   </article>
   <% end %>
 <% end %>
+
