@@ -25,11 +25,28 @@
         <% end %>
       </nav>
 
-      <h2>Projects Started: <%= Project.all.length %></h2>
+      <h3 class="site-stats">Projects Started: <%= Project.all.length %></h2>
 
-      <h2>Projects Funded: <%= Project.projects_funded.length %> </h2>
+      <h3 class="site-stats">Projects Funded: <%= Project.projects_funded.length %></h2>
 
-      <h2>Total Pledged: <%= number_to_currency(Pledge.all.sum("dollar_amount")) %></h2>
+      <h3 class="site-stats">Total Pledged: <%= number_to_currency(Pledge.all.sum("dollar_amount")) %></h3>
+
+      <br />
+
+      <%= link_to "New Project", new_project_path %>
+
+      <br />
+
+      <%= form_tag(projects_path, :method => "get") do %>
+        <%= text_field_tag(:search, params[:search]) %>
+        <%= submit_tag("Search", name: nil) %>
+      <% end %>
+
+      <div class="">
+      <% Category.all.each do |category| %>
+        <%= link_to("#{category.name}", category_path(category.id)) %>
+      <% end %>
+      </div>
 
     </header>
 
