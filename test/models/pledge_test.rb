@@ -1,7 +1,7 @@
 require_relative '../test_helper'
 
 class PledgeTest < ActiveSupport::TestCase
-  
+
     def test_pledge_must_have_dollar_amount
       pledge = Pledge.create(
         dollar_amount: nil,
@@ -46,14 +46,11 @@ class PledgeTest < ActiveSupport::TestCase
   end
 
   def test_pledge_must_be_higher_than_reward
-    owner = new_user
-    owner.save
-    project = new_project
-    project.user = owner
-    project.save
-    reward = Reward.new(project: project, description: "word", dollar_amount: 10.0)
-    reward.save
-    pledge = Pledge.new(dollar_amount: 3.00, project: project, reward: reward)
+    owner = create(:user)
+    project = create(:project, user: owner)
+    reward = create(:reward, dollar_amount: 150, project: project)
+    pledge = build(:pledge, dollar_amount: 100, project: project, reward: reward)
+
     assert pledge.invalid?, 'A pledge should not claim a reward if it is lower than the reward dollar amount'
   end
 
