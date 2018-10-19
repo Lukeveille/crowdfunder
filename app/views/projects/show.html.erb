@@ -144,6 +144,7 @@
 <% end %>
 
 <% if @project.pledges.find_by(user: current_user) %>
+  <p>Write Comment:</p>
   <%= render partial: "comments/form", locals: { project: @project, comment: Comment.new }%>
 <% end %>
 
