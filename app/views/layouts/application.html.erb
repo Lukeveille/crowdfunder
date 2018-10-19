@@ -13,29 +13,30 @@
 
   <body>
     <header class="site-header">
-      <h1 class="logo"><%= link_to("Crowdfunder", root_path)%></h1>
+      <div class="top-header">
+        <nav class="home-btns">
+          <h1 class="logo"><%= link_to("Crowdfunder", root_path)%></h1>
+          <%= link_to "New Project", new_project_path, class_name: "new-project-btn" %>
+        </nav>
 
-      <nav class="site-nav">
-        <% if current_user %>
-          Logged in as <%= link_to "#{current_user.first_name} #{current_user.last_name}", user_path(current_user) %> |
-          <%= link_to "Logout", :logout, method: :delete %>
-        <% else %>
-          <%= link_to "Register", new_user_path %> |
-          <%= link_to "Login", :login %>
-        <% end %>
-      </nav>
+        <nav class="user-links">
+          <% if current_user %>
+            Logged in as <%= link_to "#{current_user.first_name} #{current_user.last_name}", user_path(current_user) %> |
+            <%= link_to "Logout", :logout, method: :delete %>
+          <% else %>
+            <%= link_to "Register", new_user_path %> |
+            <%= link_to "Login", :login %>
+          <% end %>
+        </nav>
+      </div>
+    <div class="site-stats">
+      <h3 class="site-stat">Projects Started: <%= Project.all.length %></h2>
 
-      <h3 class="site-stats">Projects Started: <%= Project.all.length %></h2>
+      <h3 class="site-stat">Projects Funded: <%= Project.projects_funded.length %></h2>
 
-      <h3 class="site-stats">Projects Funded: <%= Project.projects_funded.length %></h2>
+      <h3 class="site-stat">Total Pledged: <%= number_to_currency(Pledge.all.sum("dollar_amount")) %></h3>
 
-      <h3 class="site-stats">Total Pledged: <%= number_to_currency(Pledge.all.sum("dollar_amount")) %></h3>
-
-      <br />
-
-      <%= link_to "New Project", new_project_path %>
-
-      <br />
+    </div>
 
       <%= form_tag(projects_path, :method => "get") do %>
         <%= text_field_tag(:search, params[:search]) %>

@@ -51,8 +51,22 @@ small {
   border-radius: 10px;
 }
 
-.site-stats  {
+// Site header
+.site-stat  {
   display: inline-block;
   border-left: 1px solid #666;
   padding: 0 1em;
+}
+.logo,
+.home-btns,
+.user-links {
+  display: inline-block;
+}
+
+.top-header,
+.mid-header,
+.low-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center
 }
