@@ -13,7 +13,6 @@
 
   <body>
     <header class="site-header">
-
       <div class="top-header">
 
         <nav class="home-btns">
@@ -32,7 +31,6 @@
         </nav>
 
       </div>
-
       <div class="mid-header">
 
         <div class="site-stats">
@@ -47,19 +45,19 @@
         <% end %>
 
       </div>
-
       <div class="low-header">
+
+        <div class="category-link">
+          <%= link_to("All", root_path) %>
+        </div>
+
         <% Category.all.each do |category| %>
           <div class="category-link">
             <%= link_to("#{category.name}", category_path(category.id)) %>
           </div>
         <% end %>
         
-        <div class="category-link">
-          <%= link_to("All", root_path) %>
-        </div>
       </div>
-
     </header>
 
     <%# <% flash.each do |key, message| %>

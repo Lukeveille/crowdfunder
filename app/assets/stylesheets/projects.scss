@@ -19,6 +19,9 @@ body, .project {
 small {
   margin: .5em;
 }
+main {
+  margin: 0 1em;
+}
 
 .project {
   margin: 1rem 0;
@@ -63,6 +66,11 @@ header {
   margin: 0;
   padding: 0 2em;
 }
+.logo,
+.user-links,
+.mid-header form {
+  padding: 0 .5em;
+}
 .site-stat  {
   display: inline-block;
   border-right: 1px solid #666;
@@ -78,7 +86,7 @@ header {
 .mid-header {
   display: flex;
   justify-content: space-between;
-  align-items: center
+  align-items: center;
 }
 .low-header {
   align-items: center

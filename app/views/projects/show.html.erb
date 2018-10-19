@@ -1,3 +1,13 @@
+<% if current_user == @project.user %>
+  <div>
+    <%= link_to "Add Project Update", new_project_update_path(@project) %>
+    <br/>
+    <% if Time.now.utc < @project.end_date %>
+    <%= link_to "Add New Reward", new_project_reward_path(@project) %>
+    <% end %>
+  </div>
+<% end %>
+
 <% user_pledges = @project.pledges.where(user: current_user) %>
 <% if user_pledges.length > 0 %>
   <p>You have pledged <%= number_to_currency(user_pledges.sum(:dollar_amount)) %> to this project!</p>
@@ -37,16 +47,18 @@
   <% end %>
 <% end %>
 
-<% if @project.updates.length > 0 && (@project.user == current_user || @project.pledges.find_by(user: current_user)) %>
+<% if @project.updates.length > 0 %>
   <h2>Updates:</h2>
   <% @project.updates.each do |update| %>
-    <div class="updates">
-      <div class="update-box">
-        <h3><%= update.title %></h3>
-        <p><%= update.notes %></p>
-        <small>Posted: <%= update.created_at.strftime("%B %d, %Y") %> at <%= update.created_at.strftime("%I:%M %p ") %></small>
+    <% if update.created_at < @project.end_date || @project.pledges.find_by(user: current_user) || @project.user == current_user %>
+      <div class="updates">
+        <div class="update-box">
+          <h3><%= update.title %></h3>
+          <p><%= update.notes %></p>
+          <small>Posted: <%= update.created_at.strftime("%B %d, %Y") %> at <%= update.created_at.strftime("%I:%M %p ") %></small>
+        </div>
       </div>
-    </div>
+    <% end %>
   <% end %>
 <% end %>
 
@@ -65,7 +77,7 @@
         <h4><%= reward.description %></h4>
 
         <% if current_user != @project.user %>
-          <% if current_user && reward.pledges.length < reward.limit %>
+          <% if current_user && reward.pledges.length < reward.limit && Time.now.utc < @project.end_date %>
 
             <%= form_for [@project, Pledge.new] do |f| %>
               <%= f.hidden_field :reward_id, value: reward.id %>
@@ -74,8 +86,8 @@
               <%= f.submit "Pledge" %>
             <% end %>
 
-          <% elsif reward.pledges.length == reward.limit %>
-            <p>These have all been claimed!</p>
+          <% elsif reward.pledges.length == reward.limit || Time.now.utc > @project.end_date%>
+            <p>No longer available!</p>
           <% else %>
             <p><%= number_to_currency(reward.dollar_amount) %></p>
           <% end %>
@@ -95,7 +107,7 @@
 
 <% end %>
 
-<% if current_user && @project.user != current_user %>
+<% if current_user && @project.user != current_user && Time.now.utc < @project.end_date %>
   <h4>Custom Pledge</h4>
 
   <%= form_for [@project, Pledge.new] do |f| %>
@@ -143,15 +155,7 @@
   <% end %>
 <% end %>
 
-<% if @project.pledges.find_by(user: current_user) %>
+<% if @project.pledges.find_by(user: current_user) && Time.now.utc < @project.end_date %>
   <p>Write Comment:</p>
   <%= render partial: "comments/form", locals: { project: @project, comment: Comment.new }%>
-<% end %>
-
-<% if current_user == @project.user %>
-  <div>
-    <%= link_to "Add Project Update", new_project_update_path(@project) %>
-    <br/>
-    <%= link_to "Add New Reward", new_project_reward_path(@project) %>
-  </div>
 <% end %>
