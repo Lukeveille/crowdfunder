@@ -8,7 +8,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_user_must_include_password_confirmation_on_create
-    user = User.new(email: "bettymaker@gmail.com", password: "12345678")
+    user = build(:user, email: "bettymaker@gmail.com", password: "12345678")
     refute user.valid?
   end
 
