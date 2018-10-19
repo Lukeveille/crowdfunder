@@ -13,31 +13,58 @@
 
   <body>
     <header class="site-header">
-      <h1 class="logo"><%= link_to("Crowdfunder", root_path)%></h1>
 
-      <nav class="site-nav">
-        <% if current_user %>
-          Logged in as <%= link_to "#{current_user.first_name} #{current_user.last_name}", user_path(current_user) %> |
-          <%= link_to "Logout", :logout, method: :delete %>
-        <% else %>
-          <%= link_to "Register", new_user_path %> |
-          <%= link_to "Login", :login %>
+      <div class="top-header">
+
+        <nav class="home-btns">
+          <h1 class="logo"><%= link_to("Crowdfunder", root_path)%></h1>
+          <%= link_to "New Project", new_project_path, class_name: "new-project-btn" %>
+        </nav>
+
+        <nav class="user-links">
+          <% if current_user %>
+            Logged in as <%= link_to "#{current_user.first_name} #{current_user.last_name}", user_path(current_user) %> |
+            <%= link_to "Logout", :logout, method: :delete %>
+          <% else %>
+            <%= link_to "Register", new_user_path %> |
+            <%= link_to "Login", :login %>
+          <% end %>
+        </nav>
+
+      </div>
+
+      <div class="mid-header">
+
+        <div class="site-stats">
+          <h3 class="site-stat">Projects Started: <%= Project.all.length %></h2>
+          <h3 class="site-stat">Projects Funded: <%= Project.projects_funded.length %></h2>
+          <h3 class="site-stat">Total Pledged: <%= number_to_currency(Pledge.all.sum("dollar_amount")) %></h3>
+        </div>
+
+        <%= form_tag(projects_path, :method => "get") do %>
+          <%= text_field_tag(:search, params[:search]) %>
+          <%= submit_tag("Search", name: nil) %>
         <% end %>
-      </nav>
 
-      <h2>Projects Started: <%= Project.all.length %></h2>
+      </div>
 
-      <h2>Projects Funded: <%= Project.projects_funded.length %> </h2>
-
-      <h2>Total Pledged: <%= number_to_currency(Pledge.all.sum("dollar_amount")) %></h2>
+      <div class="low-header">
+        <% Category.all.each do |category| %>
+          <div class="category-link">
+            <%= link_to("#{category.name}", category_path(category.id)) %>
+          </div>
+        <% end %>
+        
+        <div class="category-link">
+          <%= link_to("All", root_path) %>
+        </div>
+      </div>
 
     </header>
 
     <%# <% flash.each do |key, message| %>
     <div class="notice_box"><%= flash[:notice] %></div>
     <%# <% end %>
-
-    <br />
 
     <main>
       <%= yield %>

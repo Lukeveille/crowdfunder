@@ -4,9 +4,14 @@
 
 a {
   text-decoration: none;
+  color: cadetblue;
 }
 a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
+}
+input[type="submit"] {
+  border-radius: 10%;
+  cursor: pointer;
 }
 body, .project {
   text-align: center;
@@ -43,10 +48,49 @@ small {
   font-size: 0.75em;
 }
 
-.reward-box, .update-box, .comment-box {
+.reward-box,
+.update-box,
+.comment-box {
   border: 1px solid black;
   display: inline-block;
   min-width: 250px;
   margin: .5em auto;
   border-radius: 10px;
+}
+
+// Site header
+header {
+  margin: 0;
+  padding: 0 2em;
+}
+.site-stat  {
+  display: inline-block;
+  border-right: 1px solid #666;
+  padding: 0 .5em;
+}
+.logo,
+.home-btns,
+.user-links,
+.category-link {
+  display: inline-block;
+}
+.top-header,
+.mid-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center
+}
+.low-header {
+  align-items: center
+}
+.category-link a {
+  font-size: .8em;
+  margin: 0 .25em;
+  padding: .25em;
+  border-radius: 10%
+}
+.category-link a:hover {
+  background-color: cadetblue;
+  color: #FFF;
+  text-decoration: none;
 }
