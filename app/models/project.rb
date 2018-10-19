@@ -8,7 +8,7 @@ class Project < ActiveRecord::Base
   belongs_to :category
   belongs_to :user # project owner
 
-  validates :title, :description, :goal, :start_date, :end_date, :user_id, presence: true
+  validates :title, :description, :goal, :start_date, :end_date, :user_id, :category, presence: true
   validates :goal, numericality: { greater_than: 0 }
 
   validate :end_date_if_cannot_be_before_start_date, :start_date_cannot_be_in_past

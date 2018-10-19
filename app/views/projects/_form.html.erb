@@ -30,7 +30,7 @@
   </div>
 
   <div>
-    <%= f.collection_select :category_id, @categories, :id, :name %>
+    <%= f.collection_select :category_id, @categories, :id, :name, include_blank: "Please select a category" %>
   </div>
 
   <%= f.submit %>
