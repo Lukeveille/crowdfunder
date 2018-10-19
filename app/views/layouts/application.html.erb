@@ -13,7 +13,9 @@
 
   <body>
     <header class="site-header">
+
       <div class="top-header">
+
         <nav class="home-btns">
           <h1 class="logo"><%= link_to("Crowdfunder", root_path)%></h1>
           <%= link_to "New Project", new_project_path, class_name: "new-project-btn" %>
@@ -28,25 +30,34 @@
             <%= link_to "Login", :login %>
           <% end %>
         </nav>
+
       </div>
-    <div class="site-stats">
-      <h3 class="site-stat">Projects Started: <%= Project.all.length %></h2>
 
-      <h3 class="site-stat">Projects Funded: <%= Project.projects_funded.length %></h2>
+      <div class="mid-header">
 
-      <h3 class="site-stat">Total Pledged: <%= number_to_currency(Pledge.all.sum("dollar_amount")) %></h3>
+        <div class="site-stats">
+          <h3 class="site-stat">Projects Started: <%= Project.all.length %></h2>
+          <h3 class="site-stat">Projects Funded: <%= Project.projects_funded.length %></h2>
+          <h3 class="site-stat">Total Pledged: <%= number_to_currency(Pledge.all.sum("dollar_amount")) %></h3>
+        </div>
 
-    </div>
+        <%= form_tag(projects_path, :method => "get") do %>
+          <%= text_field_tag(:search, params[:search]) %>
+          <%= submit_tag("Search", name: nil) %>
+        <% end %>
 
-      <%= form_tag(projects_path, :method => "get") do %>
-        <%= text_field_tag(:search, params[:search]) %>
-        <%= submit_tag("Search", name: nil) %>
-      <% end %>
+      </div>
 
-      <div class="">
-      <% Category.all.each do |category| %>
-        <%= link_to("#{category.name}", category_path(category.id)) %>
-      <% end %>
+      <div class="low-header">
+        <% Category.all.each do |category| %>
+          <div class="category-link">
+            <%= link_to("#{category.name}", category_path(category.id)) %>
+          </div>
+        <% end %>
+        
+        <div class="category-link">
+          <%= link_to("All", root_path) %>
+        </div>
       </div>
 
     </header>
@@ -54,8 +65,6 @@
     <%# <% flash.each do |key, message| %>
     <div class="notice_box"><%= flash[:notice] %></div>
     <%# <% end %>
-
-    <br />
 
     <main>
       <%= yield %>
